@@ -52,4 +52,32 @@ public class BoardController {
                 .build();
         return ResponseEntity.ok().body(defaultResponse);
     }
+
+    @PutMapping("/board/update")
+    public ResponseEntity<? extends BasicResponse> updateBoard(
+            @RequestBody(required = false) BoardDto boardDto
+    ){
+        Board updateBoard = boardService.update(boardDto);
+
+        DefaultResponse<Board> defaultResponse = DefaultResponse.<Board>builder()
+                .code(HttpStatus.OK.value())
+                .httpStatus(HttpStatus.OK)
+                .message("게시글 수정 완료")
+                .result(updateBoard)
+                .build();
+        return ResponseEntity.ok().body(defaultResponse);
+    }
+
+    @DeleteMapping("/board/delete/")
+    public ResponseEntity<? extends BasicResponse> deleteBoard(
+            @RequestBody(required = false) Long boardId
+    ){
+        Board deletedBoard = boardService.delete(boardId);
+        DefaultResponse<String> defaultResponse = DefaultResponse.<String>builder()
+                .code(HttpStatus.OK.value())
+                .httpStatus(HttpStatus.OK)
+                .message(boardId+" 번 게시글이 삭제되었습니다.")
+                .build();
+        return ResponseEntity.ok().body(defaultResponse);
+    }
 }
